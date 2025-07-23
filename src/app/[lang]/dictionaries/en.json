@@ -1,0 +1,13 @@
+{
+    "HomePage": {
+        "title": "Welcome to my web site",
+        "description": "Explore our features and services designed to enchance your experience."
+    },
+    "Form":{
+        "formTitle": "Tell me what you think about me",
+        "name": "Name",
+        "lastName": "Last Name",
+        "lastNamePlaceholder": "Enter your last name",
+        "namePlaceholder": "Enter your name"
+    }
+}

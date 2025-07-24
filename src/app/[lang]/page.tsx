@@ -20,7 +20,7 @@ export default async function Home({params}: {params: Promise<{lang: 'en-US' | '
       </header>
 
       <main className="mx-auto  max-w-4xl px-6 py-8 ">
-        <Form formTitle={dict.Form.formTitle} name={dict.Form.name} lastName={dict.Form.lastName}  namePlaceholder={dict.Form.namePlaceholder} lastNamePlaceholder={dict.Form.lastNamePlaceholder} /> 
+        <Form formTitle={dict.Form.formTitle} name={dict.Form.name} lastName={dict.Form.lastName}  namePlaceholder={dict.Form.namePlaceholder} lastNamePlaceholder={dict.Form.lastNamePlaceholder} email={dict.Form.email} emailPlaceholder={dict.Form.emailPlaceholder} comment={dict.Form.comment} commentPlaceholder={dict.Form.commentPlaceholder} gift={dict.Form.gift} giftPlaceholder={dict.Form.giftPlaceholder} submitButton={dict.Form.submit}  /> 
       </main>
 
     </section>

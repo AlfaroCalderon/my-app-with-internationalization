@@ -8,6 +8,13 @@
         "name": "Имя",
         "lastName": "Фамилия",
         "lastNamePlaceholder": "Введите вашу фамилию",
-        "namePlaceholder": "Введите ваше имя"
+        "namePlaceholder": "Введите ваше имя",
+        "email": "Электронная почта",
+        "emailPlaceholder": "Введите вашу электронную почту",
+        "comment": "Сообщение",
+        "commentPlaceholder": "Введите ваше сообщение",
+        "gift": "Подарок",
+        "giftPlaceholder": "Введите ваш подарок",
+        "submit": "Отправить"
     }
 }

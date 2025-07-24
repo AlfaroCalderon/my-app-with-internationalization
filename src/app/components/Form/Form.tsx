@@ -6,7 +6,14 @@ type TextProps = {
     name: string,
     namePlaceholder: string,
     lastName: string,
-    lastNamePlaceholder: string
+    lastNamePlaceholder: string,
+    email: string,
+    emailPlaceholder: string,
+    comment: string,
+    commentPlaceholder: string,
+    gift: string,
+    giftPlaceholder: string,
+    submitButton: string
 }
 
 type Inputs = {
@@ -43,6 +50,7 @@ const onSubmit = (data:Inputs) => {
                         className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400'
                         placeholder={TextProps.namePlaceholder}
                     />
+                    {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
                 </div>
                 <div>
                         <label htmlFor="apellido" className='block text-sm font-medium text-gray-700 mb-2'>
@@ -51,52 +59,55 @@ const onSubmit = (data:Inputs) => {
                         <input
                             type="text"
                             id="apellido"
-                            {...register("apellido")}
+                            {...register("apellido", {required: "Please enter your last name"})}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             placeholder={TextProps.lastNamePlaceholder}
                         />
+                        {errors.apellido && <span className='text-red-500'>{errors.apellido.message}</span>}
                 </div>
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                        Email
+                        {TextProps.email}
                     </label>
                     <input
                         type="email"
                         id="email"
-                        {...register("email")}
+                        {...register("email", {required: "Please enter your email"})}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
-                        placeholder="Enter your email"
+                        placeholder={TextProps.emailPlaceholder}
                     />
+                    {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
                 </div>
                 <div>
                     <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-2">
-                        Comment
+                        {TextProps.comment}
                     </label>
                     <textarea
                         id="comment"
-                        {...register("comment")}
+                        {...register("comment", {required: "Please enter your comment"})}
                         rows={4}
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
-                        placeholder="Leave your comment here"
+                        placeholder={TextProps.commentPlaceholder}
                     />
+                    {errors.comment && <span className='text-red-500'>{errors.comment.message}</span>}
                 </div>
                 <div>
                     <label htmlFor="gift" className="block text-sm font-medium text-gray-700 mb-2">
-                        Gift
+                        {TextProps.gift}
                     </label>
                     <input
                         type="number"
                         id="gift"
-                        {...register("gift")}
+                        {...register("gift", {required: false})}
                         min={0}
                         step="0.01"
                         className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
-                        placeholder="Enter a monetary gift"
+                        placeholder={TextProps.giftPlaceholder}
                     />
                 </div>
                 <div className=' flex  justify-center items-center'>
                     <button type='submit' className='bg-blue-800 text-white rounded-lg py-1.5 px-6'>
-                        Save comment
+                        {TextProps.submitButton}
                     </button>
                 </div>
             </div>

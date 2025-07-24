@@ -8,6 +8,13 @@
         "name": "Nombre",
         "lastName": "Apellido",
         "lastNamePlaceholder": "Ingrese su apellido",
-        "namePlaceholder": "Ingrese su nombre"
+        "namePlaceholder": "Ingrese su nombre",
+        "email": "Correo electrónico",
+        "emailPlaceholder": "Ingrese su correo electrónico",
+        "comment": "Comentario",
+        "commentPlaceholder": "Ingrese su comentario",
+        "gift": "Regalo",
+        "giftPlaceholder": "Ingrese su regalo",
+        "submit": "Enviar"
     }
 }

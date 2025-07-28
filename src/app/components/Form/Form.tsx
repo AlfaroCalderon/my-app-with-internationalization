@@ -1,4 +1,7 @@
 'use client'
+import { createComments } from '@/services/supabase.service'
+import { Comments } from '@/types/comments.type'
+import { create } from 'domain'
 import {useForm} from 'react-hook-form'
 
 type TextProps = {
@@ -18,7 +21,7 @@ type TextProps = {
 
 type Inputs = {
     name: string;
-    apellido: string;
+    lastname: string;
     email: string;
     comment: string;
     gift: number;
@@ -27,9 +30,20 @@ type Inputs = {
 export const Form = (TextProps:TextProps) => {
  
 const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>(); 
- 
+
+console.log(watch('name'));
+console.log(errors);
 const onSubmit = (data:Inputs) => {
-    console.log('Send form data:', data);
+
+    const newComment:Comments = {
+        name: data.name,
+        lastname: data.lastname,
+        email: data.email,
+        comment: data.comment,
+        gift: data.gift || undefined, // Handle optional gift field
+        created_at: new Date().toISOString() // Add created_at field
+    };
+    createComments({comment: newComment});
 }
 
  return (
@@ -47,23 +61,23 @@ const onSubmit = (data:Inputs) => {
                         type="text"
                         id='name'
                         {...register("name", {required: "Please enter your name", minLength: {value: 2, message: "Name must be at least 2 characters long"}, maxLength: {value: 60, message: "Name must be less than 60 characters long"}})}
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400'
+                        className='w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400'
                         placeholder={TextProps.namePlaceholder}
                     />
                     {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
                 </div>
                 <div>
-                        <label htmlFor="apellido" className='block text-sm font-medium text-gray-700 mb-2'>
+                        <label htmlFor="lastname" className='block text-sm font-medium text-gray-700 mb-2'>
                             {TextProps.lastName}
                         </label>
                         <input
                             type="text"
-                            id="apellido"
-                            {...register("apellido", {required: "Please enter your last name", minLength: {value:2, message: 'Lastname must be at least 2 characters long'}, maxLength: {value: 60, message: "Lastname must be less than 60 characters long"} })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                            id="lastname"
+                            {...register("lastname", {required: "Please enter your last name", minLength: {value:2, message: 'Lastname must be at least 2 characters long'}, maxLength: {value: 60, message: "Lastname must be less than 60 characters long"} })}
+                            className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             placeholder={TextProps.lastNamePlaceholder}
                         />
-                        {errors.apellido && <span className='text-red-500'>{errors.apellido.message}</span>}
+                        {errors.lastname && <span className='text-red-500'>{errors.lastname.message}</span>}
                 </div>
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -73,7 +87,7 @@ const onSubmit = (data:Inputs) => {
                         type="email"
                         id="email"
                         {...register("email", {required: "Please enter your email", pattern: {value: /^\S+@\S+$/i, message: "Please enter a valid email address"}})}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                        className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder={TextProps.emailPlaceholder}
                     />
                     {errors.email && <span className='text-red-500'>{errors.email.message}</span>}
@@ -86,7 +100,7 @@ const onSubmit = (data:Inputs) => {
                         id="comment"
                         {...register("comment", {required: "Please enter your comment", minLength: {value: 10, message: "Comment must be at least 10 characters long"}, maxLength: {value: 500, message: "Comment must be less than 500 characters long"}})}
                         rows={4}
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+                        className="w-full px-3 py-2 text-black border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder={TextProps.commentPlaceholder}
                     />
                     {errors.comment && <span className='text-red-500'>{errors.comment.message}</span>}

@@ -46,7 +46,7 @@ const onSubmit = (data:Inputs) => {
                     <input
                         type="text"
                         id='name'
-                        {...register("name", {required: "Please enter your name"})}
+                        {...register("name", {required: "Please enter your name", minLength: {value: 2, message: "Name must be at least 2 characters long"}, maxLength: {value: 60, message: "Name must be less than 60 characters long"}})}
                         className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400'
                         placeholder={TextProps.namePlaceholder}
                     />
@@ -59,7 +59,7 @@ const onSubmit = (data:Inputs) => {
                         <input
                             type="text"
                             id="apellido"
-                            {...register("apellido", {required: "Please enter your last name"})}
+                            {...register("apellido", {required: "Please enter your last name", minLength: {value:2, message: 'Lastname must be at least 2 characters long'}, maxLength: {value: 60, message: "Lastname must be less than 60 characters long"} })}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             placeholder={TextProps.lastNamePlaceholder}
                         />
@@ -72,7 +72,7 @@ const onSubmit = (data:Inputs) => {
                     <input
                         type="email"
                         id="email"
-                        {...register("email", {required: "Please enter your email"})}
+                        {...register("email", {required: "Please enter your email", pattern: {value: /^\S+@\S+$/i, message: "Please enter a valid email address"}})}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder={TextProps.emailPlaceholder}
                     />
@@ -84,7 +84,7 @@ const onSubmit = (data:Inputs) => {
                     </label>
                     <textarea
                         id="comment"
-                        {...register("comment", {required: "Please enter your comment"})}
+                        {...register("comment", {required: "Please enter your comment", minLength: {value: 10, message: "Comment must be at least 10 characters long"}, maxLength: {value: 500, message: "Comment must be less than 500 characters long"}})}
                         rows={4}
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder={TextProps.commentPlaceholder}
@@ -98,7 +98,7 @@ const onSubmit = (data:Inputs) => {
                     <input
                         type="number"
                         id="gift"
-                        {...register("gift", {required: false})}
+                        {...register("gift", {required: false, min: {value: 0, message: "Gift amount must be at least 0"}, max: {value: 1000, message: "Gift amount must be less than or equal to 1000"}})}
                         min={0}
                         step="0.01"
                         className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"

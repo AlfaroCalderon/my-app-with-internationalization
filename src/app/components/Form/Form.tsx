@@ -1,7 +1,6 @@
 'use client'
 import { createComments } from '@/services/supabase.service'
 import { Comments } from '@/types/comments.type'
-import { create } from 'domain'
 import {useForm} from 'react-hook-form'
 
 type TextProps = {

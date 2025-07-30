@@ -25,6 +25,16 @@ export const FormAction = () => {
                         className='w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400'
                         placeholder="Enter your name"
                     />
+                    {
+                        state.fieldErrors?.name && state.fieldErrors?.name.length > 0 && (
+                            <ul className='mt-2 text-sm text-red-600'>
+                                {state.fieldErrors.name.map((error, index) => (
+                                    <li key={index}>{error}</li>
+                                ))}
+                            </ul>
+                        )
+
+                    }
                 </div>
                 <div>
                         <label htmlFor="lastname" className='block text-sm font-medium text-gray-700 mb-2'>
@@ -37,6 +47,15 @@ export const FormAction = () => {
                             className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             placeholder="Enter your last name"
                         />
+                        {
+                            state.fieldErrors?.lastname && state.fieldErrors?.lastname.length > 0 && (
+                                <ul className='mt-2 text-sm text-red-600'>
+                                    {state.fieldErrors.lastname.map((error, index) => (
+                                        <li key={index}>{error}</li>
+                                    ))}
+                                </ul>
+                            )
+                        }
                 </div>
                 <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -49,6 +68,15 @@ export const FormAction = () => {
                         className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder="Enter your email"
                     />
+                    {
+                        state.fieldErrors?.email && state.fieldErrors?.email.length > 0 && (
+                            <ul className='mt-2 text-sm text-red-600'>
+                                {state.fieldErrors.email.map((error, index) => (
+                                    <li key={index}>{error}</li>
+                                ))}
+                            </ul>
+                        )
+                    }
                 </div>
                 <div>
                     <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-2">
@@ -61,6 +89,15 @@ export const FormAction = () => {
                         className="w-full px-3 py-2 text-black border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder="Enter your comment"
                     />
+                    {
+                        state.fieldErrors?.comment && state.fieldErrors?.comment.length > 0 && (
+                            <ul className='mt-2 text-sm text-red-600'>
+                                {state.fieldErrors.comment.map((error, index) => (
+                                    <li key={index}>{error}</li>
+                                ))}
+                            </ul>
+                        )
+                    }
                 </div>
                 <div>
                     <label htmlFor="gift" className="block text-sm font-medium text-gray-700 mb-2">
@@ -77,8 +114,14 @@ export const FormAction = () => {
                     />
                 </div>
                 <div className=' flex  justify-center items-center'>
-                    <button type='submit' className='bg-blue-800 text-white rounded-lg py-1.5 px-6'>
-                        Submit
+                    <button type='submit' className='bg-blue-800 text-white rounded-lg py-1.5 px-6' disabled={pending}>
+                        { 
+                            pending? (
+                                <span className='ml-2 animate-spin'>Loading...</span>
+                            ) : (
+                                "Submit"
+                            )
+                        }
                     </button>
                 </div>
             </div>

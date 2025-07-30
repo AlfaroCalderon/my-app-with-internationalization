@@ -1,5 +1,6 @@
 'use server';
-import {success, z} from 'zod'
+import { createComments } from '@/services/supabase.service';
+import {z} from 'zod'
 const commentSchema = z.object({
     name: z.string().min(2, ' Name must be at least 2 characters long').max(60, 'Name must be less than 50 characters long'),
     lastname: z.string().min(2, 'Lastname must be at least 2 character long').max(60, 'Lastname must be less than 50 characters long'),
@@ -48,6 +49,9 @@ export const insertNewComment = async (_prevState:CommentActionState, formData:F
                 }
             }
 
+            //We send the data
+            const result = await createComments({comment: validatedFields.data});
+
             return ({
                 success: true,
                 error: undefined,
@@ -61,3 +65,5 @@ export const insertNewComment = async (_prevState:CommentActionState, formData:F
             }
         }
 }
+
+

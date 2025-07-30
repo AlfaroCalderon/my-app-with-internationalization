@@ -32,3 +32,15 @@ export const getComments = async (): Promise<Comments[] | never> => {
         throw new Error('An error has arisen: ' + error);
     }
 }
+
+export const deleteComment = async ({id}:{id:string | number}):Promise<void | never> => {
+    try {
+        const response = await supabaseApi.delete('/comments?id=eq.'+id, {
+            headers: {
+                "Prefer": "return-representation"
+            }
+        })
+    } catch (error) {
+        throw new Error('An error has arisen'+error);
+    }
+}

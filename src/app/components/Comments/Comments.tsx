@@ -1,11 +1,12 @@
 import { deleteComment, getComments } from '@/services/supabase.service';
 import { useMutation, useQuery } from '@tanstack/react-query'
+import Link from 'next/link';
 import React from 'react'
 
 export const Comments = () => {
 
 const { data, isError, isLoading, error} =  useQuery({ queryKey: ['comments'], queryFn: () => getComments(), refetchInterval: 5000 });
- const mutation = useMutation({mutationKey: ['deleteComment'], mutationFn: ({id}: { id: string | number}) => deleteComment({id})});
+const mutation = useMutation({mutationKey: ['deleteComment'], mutationFn: ({id}: { id: string | number}) => deleteComment({id})});
 
 const handleDeleteButton = (id: string | number) => {
   mutation.mutate({id});
@@ -42,7 +43,10 @@ return (
             <li key={comment.id} className="bg-white rounded-lg shadow p-4 border border-gray-100">
                 <div className="flex flex-col gap-1 mb-2">
                   <div className='flex justify-between items-center'>  
+                    <div>
                        <span className="font-semibold text-gray-800">{comment.name} {comment.lastname}</span>
+                    </div>
+                    <div className="flex">
                        <button
                           onClick={() => handleDeleteButton(comment.id!)}
                           className="text-red-500 hover:text-red-700 p-1 rounded transition-colors cursor-pointer"
@@ -53,6 +57,16 @@ return (
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 7h12M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2m2 0v12a2 2 0 01-2 2H8a2 2 0 01-2-2V7h12z" />
                           </svg>
                         </button>
+                        <Link
+                          href={`/comments/${comment.id}/edit`}
+                          className="text-blue-500 hover:text-blue-700 p-1 rounded transition-colors cursor-pointer"
+                          title="Edit comment"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232a3 3 0 114.243 4.243L7.5 21H3v-4.5l12.232-12.268z" />
+                          </svg>
+                        </Link>
+                        </div>
                   </div>
                     <span className="text-sm text-gray-500">{comment.email}</span>
                 </div>

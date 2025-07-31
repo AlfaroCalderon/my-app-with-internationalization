@@ -2,9 +2,10 @@
 import { insertNewComment } from "@/actions/supabase.action";
 import { useActionState } from "react"
 
-export const FormAction = () => {
+export const FormAction = ({id}: {id:string | number}) => {
 
-     const [state, formAction, pending] = useActionState(insertNewComment, {success:false});
+     const action = (id)? 'edit': 'add'; 
+     const [state, formAction, pending] = useActionState(insertNewComment, {success:false, action: action});
      console.log('FormAction state:', state);
 
   return (
@@ -15,6 +16,7 @@ export const FormAction = () => {
         <form className=' space-y-6 ' action={formAction}>
             <div className='grid grid-cols-1 gap-4'>
                <div>
+                <input type="hidden" name="id" value={id} />
                     <label htmlFor="name" className='block text-sm font-medium text-gray-700 mb-2'>
                         Name
                     </label>

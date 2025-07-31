@@ -1,7 +1,8 @@
 'use server';
-import { createComments } from '@/services/supabase.service';
+import { createComments, editComment } from '@/services/supabase.service';
 import {z} from 'zod'
 const commentSchema = z.object({
+    id: z.number().optional(),
     name: z.string().min(2, ' Name must be at least 2 characters long').max(60, 'Name must be less than 50 characters long'),
     lastname: z.string().min(2, 'Lastname must be at least 2 character long').max(60, 'Lastname must be less than 50 characters long'),
     email: z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email format'),
@@ -13,6 +14,7 @@ const commentSchema = z.object({
 type CommentActionState = {
     success: boolean,
     error?: string,
+    action?: string,
     fieldErrors?: {
         name?: string[],
         lastname?: string[],
@@ -25,6 +27,7 @@ type CommentActionState = {
 export const insertNewComment = async (_prevState:CommentActionState, formData:FormData):Promise<CommentActionState> => {
         try{
             const rawData = {
+                id: formData.get('id')? parseInt(formData.get('id') as string): undefined,
                 name: formData.get('name') as string,
                 lastname: formData.get('lastname') as string,
                 email: formData.get('email') as string,
@@ -39,6 +42,7 @@ export const insertNewComment = async (_prevState:CommentActionState, formData:F
                 return{
                     success: false,
                     error: 'Comment validation failed',
+                    action: undefined,
                     fieldErrors: {
                         name: errors.name || [],
                         lastname: errors.lastname || [],
@@ -49,18 +53,27 @@ export const insertNewComment = async (_prevState:CommentActionState, formData:F
                 }
             }
 
-            //We send the data
-            const result = await createComments({comment: validatedFields.data});
+            //We send the data or update the data
+            if(_prevState.action === 'add'){
+                const result = await createComments({comment: validatedFields.data});
+            }
+
+            if(_prevState.action === 'edit'){
+                const result = await editComment({id: validatedFields.data.id ,comment: validatedFields.data});
+            }
+            
 
             return ({
                 success: true,
                 error: undefined,
+                action: undefined,
                 fieldErrors: undefined
             })
         }catch (error) {
             return {
                 success: false,
                 error: 'Failed to insert comment',
+                action: undefined,
                 fieldErrors: undefined
             }
         }

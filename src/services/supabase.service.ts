@@ -37,7 +37,7 @@ export const getComments = async (): Promise<Comments[] | never> => {
 export const getCommentsID = async ({id}: {id: number| string}): Promise<Comments[] | never> => {
     try {
 
-        const response = await supabaseApi.get('/comments?id=eq'+id, {
+        const response = await supabaseApi.get('/comments?id=eq.'+id, {
             headers: {
                 "Prefer": "return-representation"
             }

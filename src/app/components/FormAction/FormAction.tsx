@@ -1,11 +1,22 @@
 'use client';
 import { insertNewComment } from "@/actions/supabase.action";
+import { getCommentsID } from "@/services/supabase.service";
+import { useQuery } from "@tanstack/react-query";
 import { useActionState } from "react"
 
 export const FormAction = ({id}: {id:string | number}) => {
 
      const action = (id)? 'edit': 'add'; 
      const [state, formAction, pending] = useActionState(insertNewComment, {success:false, action: action});
+
+     // Always call useQuery, but only use the data if action is 'edit'
+     const { data } = useQuery({ 
+        queryKey: ['commentData', id], 
+        queryFn: () => getCommentsID({id}),
+        enabled: action === 'edit'
+     });
+
+     const comment = data && data.length > 0 ? data[0] : undefined;
      console.log('FormAction state:', state);
 
   return (
@@ -26,6 +37,7 @@ export const FormAction = ({id}: {id:string | number}) => {
                         name="name"
                         className='w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400'
                         placeholder="Enter your name"
+                        defaultValue={comment?.name? comment.name : ''}
                     />
                     {
                         state.fieldErrors?.name && state.fieldErrors?.name.length > 0 && (
@@ -48,6 +60,7 @@ export const FormAction = ({id}: {id:string | number}) => {
                             name="lastname"
                             className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                             placeholder="Enter your last name"
+                            defaultValue={comment?.lastname? comment.lastname : ''}
                         />
                         {
                             state.fieldErrors?.lastname && state.fieldErrors?.lastname.length > 0 && (
@@ -69,6 +82,7 @@ export const FormAction = ({id}: {id:string | number}) => {
                         name="email"
                         className="w-full px-3 py-2 border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder="Enter your email"
+                        defaultValue={comment?.email? comment.email : ''}
                     />
                     {
                         state.fieldErrors?.email && state.fieldErrors?.email.length > 0 && (
@@ -90,6 +104,7 @@ export const FormAction = ({id}: {id:string | number}) => {
                         rows={4}
                         className="w-full px-3 py-2 text-black border border-gray-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder="Enter your comment"
+                        defaultValue={comment?.comment? comment.comment : ''}
                     />
                     {
                         state.fieldErrors?.comment && state.fieldErrors?.comment.length > 0 && (
@@ -113,6 +128,7 @@ export const FormAction = ({id}: {id:string | number}) => {
                         step="0.01"
                         className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                         placeholder="Enter gift amount"
+                        defaultValue={comment?.gift? comment.gift : ''}
                     />
                 </div>
                 <div className=' flex  justify-center items-center'>

@@ -1,15 +1,23 @@
 import { deleteComment, getComments } from '@/services/supabase.service';
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { FaHeart } from "react-icons/fa";
 import Link from 'next/link';
-import React from 'react'
+import { useLikedComments } from '@/stores/comments.store';
 
 export const Comments = () => {
 
 const { data, isError, isLoading, error} =  useQuery({ queryKey: ['comments'], queryFn: () => getComments(), refetchInterval: 5000 });
 const mutation = useMutation({mutationKey: ['deleteComment'], mutationFn: ({id}: { id: string | number}) => deleteComment({id})});
 
+const toggleLike = useLikedComments((state) => state.toggleLike);
+const liked = useLikedComments((state) => state.liked);
+
 const handleDeleteButton = (id: string | number) => {
   mutation.mutate({id});
+}
+
+const handleLike = (id:number) => {
+  toggleLike(id);
 }
  
 return (
@@ -46,7 +54,7 @@ return (
                     <div>
                        <span className="font-semibold text-gray-800">{comment.name} {comment.lastname}</span>
                     </div>
-                    <div className="flex">
+                    <div className="flex items-center">
                        <button
                           onClick={() => handleDeleteButton(comment.id!)}
                           className="text-red-500 hover:text-red-700 p-1 rounded transition-colors cursor-pointer"
@@ -66,6 +74,7 @@ return (
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232a3 3 0 114.243 4.243L7.5 21H3v-4.5l12.232-12.268z" />
                           </svg>
                         </Link>
+                        <FaHeart className=' cursor-pointer' color={liked.includes(comment.id!) ? 'red' : 'gray'} size={20} onClick={() => handleLike(comment.id!)} />
                         </div>
                   </div>
                     <span className="text-sm text-gray-500">{comment.email}</span>

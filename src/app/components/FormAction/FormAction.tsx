@@ -2,6 +2,7 @@
 import { insertNewComment } from "@/actions/supabase.action";
 import { getCommentsID } from "@/services/supabase.service";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useActionState } from "react"
 
 export const FormAction = ({id}: {id:string | number}) => {
@@ -141,6 +142,12 @@ export const FormAction = ({id}: {id:string | number}) => {
                             )
                         }
                     </button>
+                    <Link
+                        className={`bg-red-700 text-white rounded-lg py-1.5 px-6 ml-1.5  ${action !== 'edit' ? ' hidden' : ''}`}
+                        href='/comments'
+                    >
+                       Cancel
+                    </Link>
                 </div>
             </div>
         </form>
